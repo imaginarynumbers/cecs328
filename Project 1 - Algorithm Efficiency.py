@@ -4,44 +4,41 @@
 
 # Imports
 from timeit import default_timer as timer
+import math
+import sys
 import random
-# Global Items
 
 class algorithms:
 #------------------------------------------------------------------------------
-    prediction_time_holder = 0.0
-    last_function_used = " "
+    # Global variables
+    freshman_time_holder = 0.0
+    sophmore_time_holder = 0.0
+    junior_time_holder = 0.0
+    senior_time_holder = 0.0
+    
     # Freshman algorithm
     def freshman(in_list = []):
         # Variables
         max_sum = 0
-        this_sum = 0
         # Get size of length
         n = len(in_list)
-        print('n =',n)
-        # Copy the list that was passed in
-        li = list(in_list)
         # Timer start
         start = timer()
         #i: starting index of sum
-        for i in range(0,n):
-            
+        for i in range(0,n-1):
             #j: ending index of sum
-            for j in range(i,n):
+            for j in range(i,n-1):
                 this_sum = 0
                 for k in range(i,j):
-                    element = int(li[k])
-                    this_sum += element
-                    if this_sum > max_sum:
-                        max_sum = this_sum
+                    this_sum += int(in_list[k])
+                if this_sum > max_sum:
+                    max_sum = this_sum
         # end of for loops
         
         # Timer end
         end = timer()
         elapsed_time = end - start
-        algorithms.prediction_time_holder = elapsed_time
-        print('(Freshman) Time elapsed: ', elapsed_time)
-        algorithms.last_function_used = "freshman"
+        algorithms.freshman_time_holder = elapsed_time
         return max_sum
 #------------------------------------------------------------------------------      
     # Sophmore algorithm
@@ -56,7 +53,6 @@ class algorithms:
         # i: Starting index of sum
         for i in range(0,n):
             this_sum = 0
-            
             # Compute all sums that begin with index i
             for j in range(i,n):
                 element = int(in_list[j])
@@ -68,16 +64,15 @@ class algorithms:
         # Timer end
         end = timer()
         elapsed_time = end - start
-        algorithms.prediction_time_holder = elapsed_time
-        print('(Sophmore) Time elapsed: ', elapsed_time)
-        algorithms.last_function_used = "sophmore"
+        algorithms.sophmore_time_holder = elapsed_time
         return max_sum
 #------------------------------------------------------------------------------
     # Junior algorithm
     def junior(left, right, in_list = []):
         # Assume: we are only interested in the MSS that is found between a[left] and a[right].
         # Initial call to mss_junior: mss_junior(a,0,n-1)
-        
+        # Timer start
+        start = timer()
         # Base case 1
         if right == left:
             return in_list[left]
@@ -95,7 +90,10 @@ class algorithms:
         
         # Find the MSS that intersects both the left and right halves
         mss_middle = algorithms.junior_middle(left, mid, right, in_list)
-
+        # Timer end
+        end = timer()
+        elapsed_time = end - start
+        algorithms.junior_time_holder = elapsed_time
         return max(mss_left, mss_right, mss_middle)
 #------------------------------------------------------------------------------   
     # Junior Middle algorithm
@@ -136,9 +134,7 @@ class algorithms:
         # Timer end
         end = timer()
         elapsed_time = end - start
-        algorithms.prediction_time_holder = elapsed_time
-        print('(Senior) Time elapsed: ', elapsed_time)
-        algorithms.last_function_used = "senior"
+        algorithms.senior_time_holder = elapsed_time
         return max_sum
 #------------------------------------------------------------------------------    
     # Generate a random array of numbers
@@ -154,103 +150,153 @@ class algorithms:
             random_li.append(random.randint(-50,50))
         return random_li     
 #------------------------------------------------------------------------------
-    # Generate a random array of numbers
-    def prediction():        
-        #Ask the user for n and m
-        input_n = int(input('Please enter n: \n'))
-        input_m = int(input('Please enter m: \n'))
-        prediction = (algorithms.prediction_time_holder / input_m**3) * input_n
-        return prediction
-#------------------------------------------------------------------------------
         # Begin main part of program
 print('Welcome!\n')
 main_li = []
-## Take user input
-#input_string2 = input('Enter a comma delimited array of integers. ')
-#string_li = input_string2.split(",")
-#main_li = []
-#for element in string_li:
-#    main_li.append(int(element))
-#print(main_li)
-#length = int(len(main_li)-1)
-#for i in range(0,len(main_li)-1):
-#    if main_li[i] < 0:
-#        print('not negative')
-    
-## Boolean variables for while loops
 input_bool = bool(1) 
 input_bool2 = bool(1)
 input_choice = 0
-# Switcher to allow user to choose which algorithm to use
-#while input_bool != bool(0):
-#    main_li.clear()
-#    input_choice = int(input('\nPlease make a choice:\n1)Generate random numbers \n2)Input your own numbers'))
-#    if input_choice == 1:
-#        main_li = algorithms.random_array(main_li)
-#        input_bool(1)
-#    if input_choice == 2:
-#        input_string2 = input('Enter a comma delimited array of integers. ')
-#        string_li = input_string2.split(",")
-#        main_li = []
-#        for element in string_li:
-#            main_li.append(int(element))
-#        input_bool(1)
 # Begin user interaction
-while input_bool2 != bool(0):
-    while input_bool != bool(0):
-        main_li.clear()
-        input_choice = int(input('\nPlease make a choice:\n1) Generate random numbers \n2) Input your own numbers\n3) Make prediction based on last algorithm used \n0) Quit program\n'))
+while input_bool !=(0):
+    while input_bool2 !=(0):
+        input_choice = int(input('Choose an algorithm \n1)Freshman\n2)Sophmore\n3)Junior\n4)Senior\n0)Quit\n'))
         if input_choice == 1:
-            main_li = algorithms.random_array()
-            input_bool = bool(0)
+        # Freshman algorithm
+            main_li.clear()
+            input_choice = int(input('\n1)Random numbers\n2)Input your own numbers\n0)Quit\n'))
+            if input_choice == 1:
+                # Generate random numbers here
+                main_li = algorithms.random_array()
+                enter_n = int(input('\nEnter n:\n'))
+                # Run algorithm get T1 here
+                print('The freshman MSS is:',algorithms.freshman(main_li))
+                enter_m = int(input('Enter m:\n'))
+                # Here is where the prediction and actual time get calculated
+                prediction = (algorithms.freshman_time_holder / enter_n**3 * enter_m**3)
+                print('\nI predict the freshman algorithm will take:',(format(prediction, '.6f')))
+                print('Actual take required:',(format(algorithms.freshman_time_holder, '.6f')))
+                input_bool = bool(0)
+            if input_choice == 2:
+                # User enters numbers
+                input_string2 = input('Enter a comma delimited array of integers.\n')
+                string_li = input_string2.split(",")
+                main_li = []
+                for element in string_li:
+                    main_li.append(int(element))
+                # Run algorithm get T1 here
+                print('The freshman MSS is:',algorithms.freshman(main_li))
+                enter_m = int(input('Enter m:\n'))
+                # Here is where the prediction and actual time get calculated
+                prediction = (algorithms.freshman_time_holder / enter_n**3) * enter_m**3
+                print('\nI predict the freshman algorithm will take:',(format(prediction, '.6f')))
+                print('Actual take required:',(format(algorithms.freshman_time_holder, '.6f')))
+                input_bool = bool(0)
+        if input_choice == 0:
+            # Quit
+            sys.exit(0)
         if input_choice == 2:
+            # Sophmore algorithm
+            main_li.clear()
+            input_choice = int(input('\n1)Random numbers \n2)Input your own numbers\n0)Quit\n'))
+            if input_choice == 1:
+                # Generate random numbers here
+                main_li = algorithms.random_array()
+                enter_n = int(input('\nEnter n:\n'))
+                # Run algorithm get T1 here
+                print('The sophmore MSS is:',algorithms.sophmore(main_li))
+                enter_m = int(input('Enter m:\n'))
+                # Here is where the prediction and actual time get calculated
+                prediction = (algorithms.sophmore_time_holder / enter_n**2) * enter_m**2
+                print('\nI predict the sophmore algorithm will take:',(format(prediction, '.6f')))
+                print('Actual take required:',(format(algorithms.sophmore_time_holder, '.6f')))
+                input_bool = bool(0)
+        if input_choice == 2:
+            # User enters numbers
             input_string2 = input('Enter a comma delimited array of integers.\n ')
             string_li = input_string2.split(",")
             main_li = []
             for element in string_li:
                 main_li.append(int(element))
+            # Run algorithm get T1 here
+            print('The sophmore MSS is:',algorithms.sophmore(main_li))
+            enter_m = int(input('Enter m:\n'))
+            # Here is where the prediction and actual time get calculated
+            prediction = (algorithms.sophmore_time_holder / enter_n**2) * enter_m**2
+            print('\nI predict the sophmore algorithm will take:',(format(prediction, '.6f')))
+            print('Actual take required:',(format(algorithms.sophmore_time_holder, '.6f')))
             input_bool = bool(0)
+        if input_choice == 0:
+            # Quit
+            sys.exit(0)
         if input_choice == 3:
-            if algorithms.prediction_time_holder == 0:
-                print('Run an algorithm first.')
-            else:
-                print('I predict that',algorithms.last_function_used,'will take:',algorithms.prediction())
-        elif input_choice == 0:
-            break
+            # Junior algorithm
+            main_li.clear()
+            input_choice = int(input('\n1)Random numbers\n2)Input your own numbers\n0)Quit\n'))
+            if input_choice == 1:
+                # Generate random numbers here
+                main_li = algorithms.random_array()
+                enter_n = int(input('\nEnter n:\n'))
+                # Run algorithm get T1 here
+                print('The junior MSS is:',algorithms.junior(0, len(main_li)-1, main_li))
+                enter_m = int(input('Enter m:\n'))
+                # Here is where the prediction and actual time get calculated
+                prediction = algorithms.junior_time_holder / (enter_n*(math.log10(enter_n))) * (enter_m*(math.log(enter_m)))
+                print('\nI predict the junior algorithm will take:',(format(prediction, '.6f')))
+                print('Actual take required:',(format(algorithms.junior_time_holder, '.6f')))
+                input_bool = bool(0)
+            if input_choice == 2:
+                # User enters numbers
+                input_string2 = input('Enter a comma delimited array of integers.\n ')
+                string_li = input_string2.split(",")
+                main_li = []
+                for element in string_li:
+                    main_li.append(int(element))
+                # Run algorithm get T1 here
+                print('The junior MSS is:',algorithms.junior(main_li))
+                enter_m = int(input('Enter m:\n'))
+                # Here is where the prediction and actual time get calculated
+                prediction = algorithms.junior_time_holder / (enter_n*(math.log10(enter_n))) * (enter_m*(math.log(enter_m)))
+                print('\nI predict the junior algorithm will take:',(format(prediction, '.6f')))
+                print('Actual time required:',(format(algorithms.junior_time_holder, '.6f')))
+                input_bool = bool(0)
+            if input_choice == 0:
+                # Quit
+                sys.exit(0)
+        if input_choice == 4:
+            # Senior algorithm
+            main_li.clear()
+            input_choice = int(input('\n1)Random numbers\n2)Input your own numbers\n0)Quit\n'))
+            if input_choice == 1:
+                # Generate random numbers here
+                main_li = algorithms.random_array()
+                enter_n = int(input('Enter n:\n'))
+                # Run algorithm get T1 here
+                print('The senior MSS is:',algorithms.senior(main_li))
+                enter_m = int(input('Enter m:\n'))
+                # Here is where the prediction and actual time get calculated
+                prediction = (algorithms.senior_time_holder / enter_n) * enter_m
+                print('\nI predict the senior algorithm will take:',(format(prediction, '.6f')))
+                print('Actual take required:',(format(algorithms.senior_time_holder, '.6f')))
+                input_bool = bool(0)
+            if input_choice == 2:
+                # User enters numbers
+                input_string2 = input('Enter a comma delimited array of integers.\n ')
+                string_li = input_string2.split(",")
+                main_li = []
+                for element in string_li:
+                    main_li.append(int(element))
+                # Run algorithm get T1 here
+                print('The senior MSS is:',algorithms.senior(main_li))
+                enter_m = int(input('Enter m:\n'))
+                # Here is where the prediction and actual time get calculated
+                prediction = (algorithms.senior_time_holder / enter_n) * enter_m
+                print('\nI predict the senior algorithm will take:',(format(prediction, '.6f')))
+                print('Actual time required:',(format(algorithms.senior_time_holder, '.6f')))
+                input_bool = bool(0)
+            if input_choice == 0:
+                # Quit
+                sys.exit(0)
     if input_choice == 0:
-        break
-    input_bool = bool(1)
-    input_choice2 = int(input('\nPlease choose an algorithm \n1) Freshman \n2) Sophmore\n3) Junior\n4) Senior \n0) Quit program\n'))
-    if input_choice2 == 1:
-        # Call freshman function
-        print('The freshman MSS is:',algorithms.freshman(main_li))
-    elif input_choice2 == 2:
-        # Call sophmore function
-        print('The sophmore MSS is:',algorithms.sophmore(main_li))
-    elif input_choice2 == 3:
-        # Call junior function
-        # Junior timer is here, due to recursion in function
-        start = timer()
-        print('The junior MSS is:',algorithms.junior(0, len(main_li)-1, main_li))
-        end = timer()
-        elapsed_time = end - start
-        algorithms.prediction_time_holder = elapsed_time
-        last_function_used = "junior"
-        print('(Junior) Time elapsed: ', elapsed_time)
-    elif input_choice2 == 4:
-        # Call senior function
-        print('The senior MSS is:',algorithms.senior(main_li))
-    elif input_choice2 == 0:
-        input_bool2 = bool(0)
-        break
-    else:
-        # User gave bad input
-        print('\nInvalid input')
-# End of program prompt     
+        input_bool == bool(0)        
+     
 print('End of program.')
-#    # Part II of Project
-#input_string = int(input('What would you like to do? \n1: Enter your own numbers.\n2: Generate random numbers.'))        
-    
-# Switcher to call the user chosen function
-#if input_string == 1: 
-#    algorithms.random_array()
