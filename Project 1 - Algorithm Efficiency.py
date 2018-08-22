@@ -167,7 +167,7 @@ while input_bool !=(0):
             if input_choice == 1:
                 # Generate random numbers here
                 main_li = algorithms.random_array()
-                enter_n = int(input('\nEnter n:\n'))
+                enter_n = len(main_li)
                 # Run algorithm get T1 here
                 print('The freshman MSS is:',algorithms.freshman(main_li))
                 enter_m = int(input('Enter m:\n'))
@@ -201,7 +201,7 @@ while input_bool !=(0):
             if input_choice == 1:
                 # Generate random numbers here
                 main_li = algorithms.random_array()
-                enter_n = int(input('\nEnter n:\n'))
+                enter_n = len(main_li)
                 # Run algorithm get T1 here
                 print('The sophmore MSS is:',algorithms.sophmore(main_li))
                 enter_m = int(input('Enter m:\n'))
@@ -235,7 +235,7 @@ while input_bool !=(0):
             if input_choice == 1:
                 # Generate random numbers here
                 main_li = algorithms.random_array()
-                enter_n = int(input('\nEnter n:\n'))
+                enter_n = len(main_li)
                 # Run algorithm get T1 here
                 print('The junior MSS is:',algorithms.junior(0, len(main_li)-1, main_li))
                 enter_m = int(input('Enter m:\n'))
@@ -269,7 +269,7 @@ while input_bool !=(0):
             if input_choice == 1:
                 # Generate random numbers here
                 main_li = algorithms.random_array()
-                enter_n = int(input('Enter n:\n'))
+                enter_n = len(main_li)
                 # Run algorithm get T1 here
                 print('The senior MSS is:',algorithms.senior(main_li))
                 enter_m = int(input('Enter m:\n'))
