@@ -11,8 +11,7 @@ public class MergeSort
   public static void main(String[] args)
   {
     //20 int values for testing, also has duplicate values
-    int[] array = {5,78,3,23,51,15,9999,78,400,3,1,4,5,87,45,34,1,43,5000,9};
-    
+    int array[] = {5, 12, 99, 34, 4542, 32, 222, 3, 5, 5, 100, 420, 22, 2145, 4, 33, 32, 1, 54, 78};
     //Single int value for testing
     //int[] array = {5};
     
@@ -68,7 +67,7 @@ public class MergeSort
      {
        new_right_array[j] = array[q + j + 1];
      }
-     //Sentinal values (depicted as infinity in book algorithm)
+     //Sentinel values (depicted as infinity in book algorithm)
      new_left_array[n1] = Integer.MAX_VALUE;
      new_right_array[n2] = Integer.MAX_VALUE;
      
