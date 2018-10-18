@@ -1,17 +1,21 @@
 package cecs328.csulb.edu;
 /**
  * @author Kacy Rowe
- * CECS 328 - Merge Sort Project
+ * CECS 328 - Data Structures and Algorithms
+ * Merge Sort Project
+ * Professor Ali Sharifian
  */
 public class MergeSort
 {
   /**
    * @param args
    */
+  public static int comparison = 0;
   public static void main(String[] args)
   {
     //20 int values for testing, also has duplicate values
-    int array[] = {5, 12, 99, 34, 4542, 32, 222, 3, 5, 5, 100, 420, 22, 2145, 4, 33, 32, 1, 54, 78};
+    int[] array = {5, 12, 99, 34, 4542, 32, 222, 3, 5, 5, 100, 420, 22, 2145, 4, 33, 32, 1, 54, 78};
+    
     //Single int value for testing
     //int[] array = {5};
     
@@ -21,12 +25,11 @@ public class MergeSort
     
     //call the merge sort method
     merge_sort(array, 0, array.length - 1);
-    
-    System.out.println("\n\nComplete!");
-    System.out.println("The sorted " + array.length + " array values are:");
+
+    System.out.println("\n\nThe sorted " + array.length + " array values are:");
     //print the sorted int values
     printArray(array, 0, array.length - 1);
-    System.out.println("\n\nEnd of program.");
+    System.out.println("\n\nRequired " + comparison + " comparisons.");
   }
 //---------------------------------------------------------------------------
   /**
@@ -55,6 +58,8 @@ public class MergeSort
    */
   public static void merge(int[] array, int p, int q, int r)
   {
+     //This algorithm was provided by the class textbook
+     //Intro to Algorithms 3rd edition by Cormen, Leiserson, Rivest, Stein respectively.
      int n1 = q - p + 1;
      int n2 = r - q;
      int[] new_left_array = new int[n1 + 1];
@@ -67,7 +72,8 @@ public class MergeSort
      {
        new_right_array[j] = array[q + j + 1];
      }
-     //Sentinel values (depicted as infinity in book algorithm)
+     
+     //Sentinel values (depicted as infinity in book)
      new_left_array[n1] = Integer.MAX_VALUE;
      new_right_array[n2] = Integer.MAX_VALUE;
      
@@ -76,10 +82,12 @@ public class MergeSort
      
      for(int k = p; k <= r; k++)
      {
+       
        if(new_left_array[i] <= new_right_array[j])
        {
          array[k] = new_left_array[i];
          i = i + 1;
+         comparison++; //Keep track of how many comparisons are done
        }
        else 
        {
