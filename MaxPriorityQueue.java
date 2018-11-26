@@ -156,17 +156,6 @@ public class MaxPriorityQueue
     max_heapify(array, get_max(array));
   }
 //---------------------------------------------------------------------
-  @SuppressWarnings("unused")
-  /**
-   * Returns the parent of a specific node in the heap
-   * @param i
-   * @return
-   */
-  private static int parent(int i) 
-  {
-    return i/2;
-  }
-//---------------------------------------------------------------------
   /**
    * Resizes array after extract max is called
    */
