@@ -18,6 +18,7 @@ public class BuildMaxHeap
   {
     int array[] = {12, 99, 34, 4542, 32, 222, 3, 5, 5, 100, 420, 22, 2145, 4, 33, 32, 1, 54, 78 , 99};
     //int array[] = {4, 5, 1, 7, 3, 3, 8};
+    //int array[] = {12, 6, -2, -5, 22, 4, 8, 1};
     //int array[] = {5}; //array with single value for testing, professors request
     System.out.println("The values in the array before:");
     printArray(array);
@@ -70,12 +71,12 @@ public class BuildMaxHeap
 //---------------------------------------------------------------------------
   public static int left(int input)
   {
-    return 2 * input;
+    return 2 * input + 1;
   }
 //---------------------------------------------------------------------------
   public static int right(int input)
   {
-    return 2 * input + 1;
+    return 2 * input + 2;
   }
 //---------------------------------------------------------------------------
   /**
