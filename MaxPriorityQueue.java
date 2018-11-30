@@ -9,17 +9,18 @@ import java.util.Scanner;
 
 public class MaxPriorityQueue 
 {
-  //must have at least 10 integers
-  public static int[] array = new int[] {5, 10, 8, 13, 2, 17, 12, 3, 1, 55, 1000};
-  //single integer to test
-  //public static int[] array = new int[] {1000}; 
+  public static int[] array = new int[0];
   public static void main(String[] args) 
   {
-    System.out.println("Input array:");
-    printArray(array);
-    System.out.println();
-    buildMaxHeap(array);
     Scanner sc = new Scanner(System.in);
+    System.out.println("Input an array of numbers delimited with spaces.\nExample: 3 4 1 55 9 12");
+    String userInput = sc.nextLine();
+    String[] userInputArray = userInput.split("\\s+");
+    for(String input: userInputArray)
+    {
+      insert(Integer.parseInt(input));
+    }
+    printArray(array);
     while(true)
     {
       //begin menu
@@ -51,11 +52,24 @@ public class MaxPriorityQueue
           break;
         case 4:
           //Increase-key
-          System.out.println("Which node would you like to modify?\nChoose between: 1-" + array.length);
-          int nodeChange = sc.nextInt();
+          int tempArraySize = array.length - 1;
+          System.out.println("Which node would you like to modify?\nChoose between: 0-" + tempArraySize);
+          int nodeChange = 0;
+          while(true)
+          {
+            //loops in case if user keeps going out of bounds
+            nodeChange = sc.nextInt();
+            if(nodeChange >= 0 && nodeChange <= tempArraySize)
+              break;
+            else
+            {
+              System.out.println("You went out of bounds of the array, try again");
+              System.out.println("Which node would you like to modify?\nChoose between: 0-" + tempArraySize);
+            }      
+          }
           System.out.println("Enter new value for node: " + nodeChange);
           int nodeValue = sc.nextInt();
-          increase_key(nodeChange - 1, nodeValue);
+          increase_key(nodeChange, nodeValue);
           break;
         case 5:
           //Exit
@@ -71,23 +85,21 @@ public class MaxPriorityQueue
 //---------------------------------------------------------------------
   /**
    * Inserts a new value into the heap
+   * Resizes accordingly
    * @param input
    */
   public static void insert(int input)
   {
-    //inserts element input into the array
     int[] temp = new int[array.length + 1];
 
     for (int i = 0; i < array.length; i++)
     {
-      //array = Arrays.copyOf(temp, i + 1);
       temp[i] = array[i];
     }
     temp[array.length] = input;
     array = new int[temp.length];
     for (int i = 0; i < array.length; i++)
     {
-      //array = Arrays.copyOf(temp, i + 1);
       array[i] = temp[i];
     }
     if (array[0] < input)
@@ -108,26 +120,24 @@ public class MaxPriorityQueue
    */
   public static int maximum(int[] array)
   {
-    //returns the element with the largest key
     return array[0];
   }
 //---------------------------------------------------------------------
   /**
    * Increases a specific key in the heap with a new one.
+   * Which is assumed to be at least as large as x's current key value
    * @param i
    * @param key
    */
   public static void increase_key(int i, int key)
   {
-    //increases the value of element x's key to the new value k,
-    //which is assumed to be at least as large as x's current key value
     int tempi = i;
     int tempKey = key;
     Scanner sc2 = new Scanner(System.in);
     try 
     {
       //check to see if user went out of bounds of the array
-      if(key < array[i] || tempi < 0);
+      if(tempi < 0);
     }
     catch (ArrayIndexOutOfBoundsException e)
     {
@@ -141,7 +151,8 @@ public class MaxPriorityQueue
       tempKey = nodeValue;
       increase_key(nodeChange, nodeValue);
     }
-    if(tempi >= 0)
+    System.out.println("tempi " + tempi + " arraylength " + array.length);
+    if(tempi >= 0 && tempi < array.length)
     {
       if(key < array[tempi])
         System.out.println("\nNew key is smaller than current key");
@@ -150,10 +161,10 @@ public class MaxPriorityQueue
         array[tempi] = tempKey;
         max_heapify(array, get_max(array));
       }
-      else if(tempi < 0)
+      else if(tempi < 0 || tempi > array.length)
         System.out.println("You went out of bounds of the array, try again");
     }
-    max_heapify(array, get_max(array));
+    buildMaxHeap(array);
   }
 //---------------------------------------------------------------------
   /**
@@ -161,19 +172,19 @@ public class MaxPriorityQueue
    */
   public static void resize_array_delete_max()
   {
-    int[] tempArray = new int[array.length - 1];
-    for(int i = 0; i < array.length - 1; i++)
+    int[] tempArray = new int[array.length];
+    for(int i = 0; i < array.length; i++)
     {
       tempArray[i] = array[i];
     }
     array = new int[array.length - 1];
-    for(int i = 0; i < array.length; i++)
+    for(int i = 1; i < array.length + 1; i++)
     {
-      if(i > 0)
-      {
-        array[i - 1] = tempArray[i];
-      }
+      if(i == 1) array[i-1] = tempArray[i];
+      if(i > 1) array[i - 1] = tempArray[i];
+      if(i == array.length + 1) array[i - 1] = tempArray[i];
     }
+    printArray(array);
     buildMaxHeap(array);
   }
 //---------------------------------------------------------------------
@@ -195,11 +206,11 @@ public class MaxPriorityQueue
 //---------------------------------------------------------------------
   /**
    * Extracts the largest value in the heap
+   * Removes and returns the element S with the largest key
    * @param array
    */
   public static void extract_max(int[] array)
   {
-    //removes and returns the element S with the largest key
     if(array.length < 1)
     {
       System.out.println("\nError, heap underflow.");
@@ -218,7 +229,6 @@ public class MaxPriorityQueue
    */
   public static void max_heapify(int[] array, int i)
   {
-    //max heapify method
     int largest = i;
     int left = left(i);
     int right = right(i);
