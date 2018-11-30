@@ -183,7 +183,6 @@ public class MaxPriorityQueue
       if(i > 1) array[i - 1] = tempArray[i];
       if(i == array.length + 1) array[i - 1] = tempArray[i];
     }
-    printArray(array);
     buildMaxHeap(array);
   }
 //---------------------------------------------------------------------
@@ -217,7 +216,6 @@ public class MaxPriorityQueue
     else
     {
       resize_array_delete_max();
-      max_heapify(array, get_max(array));
     }
   }
 //---------------------------------------------------------------------
