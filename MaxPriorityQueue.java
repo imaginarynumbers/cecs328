@@ -47,7 +47,7 @@ public class MaxPriorityQueue
           break;
         case 3:
           //Extract-Max
-          extract_max(array);
+          extract_max();
           break;
         case 4:
           //Increase-key
@@ -107,9 +107,9 @@ public class MaxPriorityQueue
     }
     if(array[0] > input)
     {
-      max_heapify(array, get_max(array));
+      max_heapify(array, get_max());
     }
-    buildMaxHeap(array);
+    buildMaxHeap();
   }
 //---------------------------------------------------------------------
   /**
@@ -158,12 +158,12 @@ public class MaxPriorityQueue
       if(key > array[tempi])
       {
         array[tempi] = tempKey;
-        max_heapify(array, get_max(array));
+        max_heapify(array, get_max());
       }
       else if(tempi < 0 || tempi > array.length)
         System.out.println("You went out of bounds of the array, try again");
     }
-    buildMaxHeap(array);
+    buildMaxHeap();
   }
 //---------------------------------------------------------------------
   /**
@@ -183,7 +183,7 @@ public class MaxPriorityQueue
       if(i > 1) array[i - 1] = tempArray[i];
       if(i == array.length + 1) array[i - 1] = tempArray[i];
     }
-    buildMaxHeap(array);
+    buildMaxHeap();
   }
 //---------------------------------------------------------------------
   /**
@@ -191,7 +191,7 @@ public class MaxPriorityQueue
    * @param array
    * @return
    */
-  public static int get_max(int[] array)
+  public static int get_max()
   {
     int max = 0;
     for(int i = 0; i < array.length; i++)
@@ -207,7 +207,7 @@ public class MaxPriorityQueue
    * Removes and returns the element S with the largest key
    * @param array
    */
-  public static void extract_max(int[] array)
+  public static void extract_max()
   {
     if(array.length < 1)
     {
@@ -250,7 +250,7 @@ public class MaxPriorityQueue
    * Builds the max heap
    * @param array
    */
-  public static void buildMaxHeap(int[] array)
+  public static void buildMaxHeap()
   {
     for(int i = array.length / 2; i>= 0; i--)
     {
