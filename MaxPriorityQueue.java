@@ -20,7 +20,6 @@ public class MaxPriorityQueue
     {
       insert(Integer.parseInt(input));
     }
-    printArray(array);
     while(true)
     {
       //begin menu
