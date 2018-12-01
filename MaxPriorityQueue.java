@@ -14,7 +14,7 @@ public class MaxPriorityQueue
   {
     Scanner sc = new Scanner(System.in);
     System.out.println("Input an array of numbers delimited with spaces.\nExample: 3 4 1 55 9 12");
-    String userInput = sc.nextLine();
+    String userInput = sc.nextLine(); //assuming user gives valid input
     String[] userInputArray = userInput.split("\\s+");
     for(String input: userInputArray)
     {
@@ -43,6 +43,12 @@ public class MaxPriorityQueue
           break;
         case 2:
           //Maximum
+          if(array.length == 0)
+          {
+            //if the user attempts to get the max when the heap is empty
+            System.out.println("Error, the heap is empty.");
+            break;
+          }
           System.out.println("\nMax: " + maximum(array));
           break;
         case 3:
@@ -52,6 +58,12 @@ public class MaxPriorityQueue
         case 4:
           //Increase-key
           int tempArraySize = array.length - 1;
+          if(array.length == 0)
+          {
+            //if the user attempts to increase a key when the heap is empty
+            System.out.println("Error, the heap is empty.");
+            break;
+          }
           System.out.println("Which node would you like to modify?\nChoose between: 0-" + tempArraySize);
           int nodeChange = 0;
           while(true)
